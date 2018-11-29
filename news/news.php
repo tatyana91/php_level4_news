@@ -1,8 +1,16 @@
 <?php
-//TODO переписать с использованием spl
-function __autoload($class){
-    include("classes/$class.class.php");
+function loadClass($class){
+    if (file_exists("classes/$class.class.php")) {
+        require_once "classes/$class.class.php";
+    }
 }
+function loadInterface($class){
+    if (file_exists("interfaces/$class.class.php")) {
+        require_once "interfaces/$class.class.php";
+    }
+}
+spl_autoload_register('loadClass');
+spl_autoload_register('loadInterface');
 
 $news = new NewsDB();
 

@@ -5,23 +5,30 @@
  * Реализует интерфейс IDB
  */
 class DB implements IDB{
-    private const DB_NAME = '../news.db';
+    private const LOG_FILE = '../logs/sql_errors.log';
     private $_db;
     private $logger;
 
     /**
      * Соединие с базой, создание базы, создание экземпляра класса Logger
      *
+     * @param array $dsn_params - параметры соединения с БД
+     * $dsn_params[
+     * 'type' => (string) Тип базы данных. Обязателен.
+     * 'name' => (string) Имя базы данных. Обязателен
+     * ]
+     *
      * @return void
      */
-    function __construct(){
+    function __construct($dsn_params){
         $this->logger = Logger::getInstance();
 
         try {
-            $this->_db = new PDO('sqlite:' . self::DB_NAME);
+            $dsn = $dsn_params['type'].":".$dsn_params['name'];
+            $this->_db = new PDO($dsn);
             $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            if (!file_exists(self::DB_NAME) || !filesize(self::DB_NAME)) {
+            if (!file_exists($dsn_params['name']) || !filesize($dsn_params['name'])) {
                 $sql = "CREATE TABLE msgs(
 							id INTEGER PRIMARY KEY AUTOINCREMENT,
 							title TEXT,
@@ -46,7 +53,7 @@ class DB implements IDB{
         }
         catch (PDOException $e){
             $error = "\"".implode(',', $this->_db->errorInfo())."\" in file ".$e->getFile()." on line ".$e->getLine();
-            $this->logger->writeLog($error);
+            $this->logger->writeLog($error, self::LOG_FILE);
             die('Не удалось создать таблицы в базе данных');
         }
     }
@@ -54,7 +61,7 @@ class DB implements IDB{
     /**
      * Получить свойство класса
      *
-     * @params string $name - имя свойства
+     * @param string $name - имя свойства
      *
      * @throws Exception
      */
@@ -65,8 +72,8 @@ class DB implements IDB{
     /**
      * Установить свойство класса
      *
-     * @params string $name - имя свойства
-     * @params mixed $value - значение свойства
+     * @param string $name - имя свойства
+     * @param mixed $value - значение свойства
      *
      * @throws Exception
      */
@@ -96,7 +103,7 @@ class DB implements IDB{
         }
         catch (PDOException $e){
             $error = "\"".implode(',', $this->_db->errorInfo())."\" in file ".$e->getFile()." on line ".$e->getLine();
-            $this->logger->writeLog($error);
+            $this->logger->writeLog($error, self::LOG_FILE);
             die('Не удалось выполнить запрос');
         }
 
@@ -116,7 +123,7 @@ class DB implements IDB{
         }
         catch (PDOException $e){
             $error = "\"".implode(',', $this->_db->errorInfo())."\" in file ".$e->getFile()." on line ".$e->getLine();
-            $this->logger->writeLog($error);
+            $this->logger->writeLog($error, self::LOG_FILE);
             die('Не удалось выполнить запрос');
         }
 

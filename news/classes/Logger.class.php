@@ -5,7 +5,6 @@
  * Реализует шаблон Singleton
  */
 class Logger{
-    private const LOG_FILE = '../logs/sql_errors.log';
     static private $instance = null;
 
     private function __construct(){}
@@ -28,13 +27,14 @@ class Logger{
      *	Записать ошибку в файл логов
      *
      *	@param string $error - описание ошибки
+     *	@param string $log_file - файл логов
      *
      *	@return void
      */
-    public function writeLog($error){
+    public function writeLog($error, $log_file){
         $log_error = date('d.m.Y H:i:s', time())." ";
         $log_error .= $error;
         $log_error .= "\n";
-        file_put_contents(self::LOG_FILE, $log_error, FILE_APPEND);
+        file_put_contents($log_file, $log_error, FILE_APPEND);
     }
 }

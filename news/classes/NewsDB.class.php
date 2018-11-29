@@ -5,6 +5,7 @@
  *  Реализует интерфейс INewsDB, IteratorAggregate
  */
 class NewsDB implements INewsDB, IteratorAggregate{
+    private const DB_NAME = '../news.db';
 	private const RSS_NAME = 'rss.xml';
 	private const RSS_TITLE = 'Последние новости';
 	private const RSS_LINK = 'http://php3.loc/news/news.php';
@@ -18,18 +19,21 @@ class NewsDB implements INewsDB, IteratorAggregate{
      * @return void
      */
 	function __construct(){
-	    $this->_db = new DB();
+	    $dsn_params = array();
+        $dsn_params['type'] = 'sqlite';
+        $dsn_params['name'] = self::DB_NAME;
+	    $this->_db = new DB($dsn_params);
         $this->getCategories();
 	}
 
     /**
      * Сохранить новость и перегенерировать ленту rss
      *
-     * @params string $title - название новости
-     * @params int $category - категория новости
-     * @params string $description - описание новости
-     * @params string $text - текст новости
-     * @params string $source - ссылка на источник новости
+     * @param string $title - название новости
+     * @param int $category - категория новости
+     * @param string $description - описание новости
+     * @param string $text - текст новости
+     * @param string $source - ссылка на источник новости
      *
      * @return bool булев результат (успех/ошибка)
      *
@@ -77,7 +81,7 @@ class NewsDB implements INewsDB, IteratorAggregate{
     /**
      * Получить новость с запрашиваемым id
      *
-     * @params int $id - идентификатор новости
+     * @param int $id - идентификатор новости
      *
      * @return array результирующий набор в виде ассоциативного массива
      *
@@ -100,25 +104,12 @@ class NewsDB implements INewsDB, IteratorAggregate{
             return false;
         }
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
-        /*$sql = "SELECT
-					title, 
-					category.name as category,
-					text, 
-					source, 
-					datetime 
-				FROM msgs, category 
-				WHERE 
-					category.id = msgs.category 
-					AND msgs.id = $id";
-        $result = $this->_db->query($sql);
-        return $result->fetch(PDO::FETCH_ASSOC);*/
 	}
 
     /**
      * Удалить новость с заданным id
      *
-     * @params int $id - идентификатор новости
+     * @param int $id - идентификатор новости
      *
      * @return bool булев результат (успех/ошибка)
      *
