@@ -1,0 +1,8 @@
+14.10.2018 13:33:45 "near "(": syntax error" in file C:\OSPanel\domains\mysite.local\news\NewsDB.class.php on line 22 : Не удалось создать таблицу новостей
+28.11.2018 23:20:42 "Array" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
+28.11.2018 23:21:43 "" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
+28.11.2018 23:23:05 "" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
+28.11.2018 23:24:40 "Array" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
+28.11.2018 23:26:09 "00000,," in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
+28.11.2018 23:28:28 "HY000,1,near "CREATETRT": syntax error" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 23
+28.11.2018 23:31:58 "HY000,1,near "CREATETRT": syntax error" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 23
