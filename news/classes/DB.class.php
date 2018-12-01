@@ -29,7 +29,9 @@ class DB implements IDB{
             $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             if (!file_exists($dsn_params['name']) || !filesize($dsn_params['name'])) {
-                $sql = "CREATE TABLE msgs(
+                try {
+                    $this->_db->beginTransaction();
+                    $sql = "CREATE TABLE msgs(
 							id INTEGER PRIMARY KEY AUTOINCREMENT,
 							title TEXT,
 							category INTEGER,
@@ -37,24 +39,32 @@ class DB implements IDB{
 							text TEXT,
 							source TEXT,
 							datetime INTEGER)";
-                $this->_db->exec($sql);
+                    $this->_db->exec($sql);
 
-                $sql = "CREATE TABLE category(
+                    $sql = "CREATE TABLE category(
 							id INTEGER PRIMARY KEY AUTOINCREMENT,
 							name TEXT)";
-                $this->_db->exec($sql);
+                    $this->_db->exec($sql);
 
-                $sql = "INSERT INTO category(name)
+                    $sql = "INSERT INTO category(name)
 							SELECT 'Политика' as name
 							UNION SELECT 'Культура' as name
 							UNION SELECT 'Спорт' as name";
-                $this->_db->exec($sql);
+                    $this->_db->exec($sql);
+                    $this->_db->commit();
+                }
+                catch (PDOException $e) {
+                    $error = "\"".implode(',', $this->_db->errorInfo())."\" in file ".$e->getFile()." on line ".$e->getLine();
+                    $this->logger->writeLog($error, self::LOG_FILE);
+                    $this->_db->rollBack();
+                    die('Не удалось создать таблицы в базе данных');
+                }
             }
         }
         catch (PDOException $e){
             $error = "\"".implode(',', $this->_db->errorInfo())."\" in file ".$e->getFile()." on line ".$e->getLine();
             $this->logger->writeLog($error, self::LOG_FILE);
-            die('Не удалось создать таблицы в базе данных');
+            die('Не удалось подключиться к базе данных');
         }
     }
 

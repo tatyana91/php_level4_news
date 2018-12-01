@@ -6,3 +6,9 @@
 28.11.2018 23:26:09 "00000,," in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 24
 28.11.2018 23:28:28 "HY000,1,near "CREATETRT": syntax error" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 23
 28.11.2018 23:31:58 "HY000,1,near "CREATETRT": syntax error" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 23
+30.11.2018 20:28:55 "HY000,1,no such column: msgs.category" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 125
+30.11.2018 20:31:11 "HY000,1,no such table: categor" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 52
+30.11.2018 20:31:50 "HY000,1,no such column: description" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 125
+30.11.2018 20:36:10 "HY000,1,no such column: description" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 133
+30.11.2018 20:37:44 "HY000,1,no such column: description" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 134
+30.11.2018 20:38:41 "HY000,1,no such table: categor" in file C:\OSPanel\domains\php4.loc\news\news\classes\DB.class.php on line 53
